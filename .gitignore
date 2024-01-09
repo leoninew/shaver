@@ -1,0 +1,14 @@
+logs
+*.log
+node_modules
+dist
+
+# Editor directories and files
+.vs
+.vscode
+.idea
+.DS_Store
+.vite
+
+/auto-imports.d.ts
+/components.d.ts
