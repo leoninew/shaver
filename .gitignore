@@ -10,5 +10,4 @@ dist
 .DS_Store
 .vite
 
-/auto-imports.d.ts
 /components.d.ts

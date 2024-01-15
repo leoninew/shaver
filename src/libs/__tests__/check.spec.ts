@@ -1,5 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
-import check from '../../src/libs/check'
+import { describe, test, expect } from 'vitest'
+import check from '../check'
 
 describe('check', () => {
 

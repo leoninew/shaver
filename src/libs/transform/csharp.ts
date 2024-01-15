@@ -43,11 +43,13 @@ export default function (json: any, options?: Record<string, any>): string {
     const useJsonPropertyName = options?.useJsonPropertyName;
     const useCamelCasePropertyNamesContractResolver = options?.useCamelCasePropertyNamesContractResolver;
     const useCamelCaseJsonNamingPolicy = options?.useCamelCaseJsonNamingPolicy;
+    const usePetaPoco = options?.usePetaPoco;
 
     const headers = [];
     const classes = [];
     let jsonPropertyUsed = 0;
     let jsonPropertyNameUsed = 0;
+    let petaPocoColumnNameUsed = 0;
 
     for (const { name, type } of types) {
         const isObjectType = isObject(type);
@@ -98,6 +100,21 @@ export default function (json: any, options?: Record<string, any>): string {
                     jsonPropertyNameUsed += 1;
                 }
             }
+
+            if (usePetaPoco) {
+                if (keepBrief) {
+                    const lowerName = camelize(memberName, false);
+                    if (lowerName !== member) {
+                        classes.push(`    [Column("${member}")]`);
+                        petaPocoColumnNameUsed += 1;
+                    }
+                }
+                else {
+                    classes.push(`    [Column("${member}")]`);
+                    petaPocoColumnNameUsed += 1;
+                }
+            }
+
             classes.push(`    public ${targetType} ${memberName} { get; set; }`);
         }
         classes.push(`}\n`);
@@ -108,6 +125,9 @@ export default function (json: any, options?: Record<string, any>): string {
     }
     if (jsonPropertyNameUsed) {
         headers.push(`using System.Text.Json.Serialization;`);
+    }
+    if (petaPocoColumnNameUsed) {
+        headers.push(`using PetaPoco;`);
     }
     if (headers.length > 0) {
         headers.push('');

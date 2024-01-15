@@ -9,6 +9,7 @@
       </a-card>
       <MonacoEditor v-model:text="input" language="json" v-on:changed="changed" ref="inputEditor" />
     </a-col>
+    
     <a-col :span="12">
       <a-card title="Java">
         <template #extra>
@@ -71,7 +72,7 @@
   const output = ref('');
   const state = ref('');
   const showOptions = ref(false);
-  const options = ref({
+  const options = ref<Record<string, boolean>>({
     keepBrief: true,
     useJackson: true,
     useLombok: true,
@@ -79,12 +80,11 @@
   const inputEditor = ref<any>();
 
   onMounted(async () => {
-    localStore.assign('/transform/java/keepBrief',
-        val => options.value.keepBrief = val);
-    localStore.assign('/transform/java/useJackson',
-        val => options.value.useJackson = val);
-    localStore.assign('/transform/java/useLombok',
-        val => options.value.useLombok = val);
+    const keys = Object.keys(options.value);
+    for (const key of keys) {
+      localStore.assign(`/transform/java/${key}`,
+          val => options.value[key] = val);
+    }
 
     // https://en.wikipedia.org/wiki/JSON
     input.value = localStore.get('/transform/input')
@@ -120,9 +120,10 @@
   }
 
   const hideOptions = async () => {
-    localStore.set('/transform/java/keepBrief', options.value.keepBrief);
-    localStore.set('/transform/java/useJackson', options.value.useJackson);
-    localStore.set('/transform/java/useLombok', options.value.useLombok);
+    const keys = Object.keys(options.value);
+    for (const key of keys) {
+      localStore.set(`/transform/java/${key}`, options.value[key]);
+    }
     await changed(input.value);
   }
 

@@ -64,6 +64,13 @@
         <a-checkbox v-model:checked="options.useCamelCaseJsonNamingPolicy">Use JsonNamingPolicy.CamelCase</a-checkbox>
       </a-form-item>
     </a-form>
+
+    <h3>PetaPoco</h3>
+    <a-form layout="vertical">
+      <a-form-item label="Attributes">
+        <a-checkbox v-model:checked="options.usePetaPoco">Use PetaPoco</a-checkbox>
+      </a-form-item>
+    </a-form>
   </a-drawer>
 </template>
 
@@ -81,29 +88,23 @@
   const output = ref('');
   const state = ref('');
   const showOptions = ref(false);
-  const options = ref({
+  const options = ref<Record<string, boolean>>({
     keepBrief: true,
     useClrType: false,
     useJsonProperty: true,
     useCamelCasePropertyNamesContractResolver: true,
     useJsonPropertyName: false,
     useCamelCaseJsonNamingPolicy: false,
+    usePetaPoco: false,
   });
   const inputEditor = ref<any>();
 
   onMounted(async () => {
-    localStore.assign('/transform/csharp/keepBrief',
-        val => options.value.keepBrief = val);
-    localStore.assign('/transform/csharp/useClrType',
-        val => options.value.useClrType = val);
-    localStore.assign('/transform/csharp/useJsonProperty',
-        val => options.value.useJsonProperty = val);
-    localStore.assign('/transform/csharp/useJsonPropertyName',
-        val => options.value.useJsonPropertyName = val);
-    localStore.assign('/transform/csharp/useCamelCasePropertyNamesContractResolver',
-        val => options.value.useCamelCasePropertyNamesContractResolver = val);
-    localStore.assign('/transform/csharp/useCamelCaseJsonNamingPolicy',
-        val => options.value.useCamelCaseJsonNamingPolicy = val);
+    const keys = Object.keys(options.value);
+    for (const key of keys) {
+      localStore.assign(`/transform/csharp/${key}`,
+          val => options.value[key] = val);
+    }
 
     // https://en.wikipedia.org/wiki/JSON
     input.value = localStore.get('/transform/input')
@@ -139,12 +140,10 @@
   }
 
   const hideOptions = async () => {
-    localStore.set('/transform/csharp/keepBrief', options.value.keepBrief);
-    localStore.set('/transform/csharp/useClrType', options.value.useClrType);
-    localStore.set('/transform/csharp/useJsonProperty', options.value.useJsonProperty);
-    localStore.set('/transform/csharp/useJsonPropertyName', options.value.useJsonPropertyName);
-    localStore.set('/transform/csharp/useCamelCasePropertyNamesContractResolver', options.value.useCamelCasePropertyNamesContractResolver);
-    localStore.set('/transform/csharp/useCamelCaseJsonNamingPolicy', options.value.useCamelCaseJsonNamingPolicy);
+    const keys = Object.keys(options.value);
+    for (const key of keys) {
+      localStore.set(`/transform/csharp/${key}`, options.value[key]);
+    }
     await changed(input.value);
   }
 

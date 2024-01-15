@@ -5,7 +5,5 @@
 </template>
 
 <script lang='ts' setup>
-  import Counter from '@/components/Counter.vue';
-
   const VITE_BACKEND_BASEURL = import.meta.env.VITE_BACKEND_BASEURL;
 </script>

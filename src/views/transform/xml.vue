@@ -9,6 +9,7 @@
       </a-card>
       <MonacoEditor v-model:text="input" language="json" v-on:changed="changed" ref="inputEditor" />
     </a-col>
+    
     <a-col :span="12">
       <a-card title="XML">
         <template #extra>
@@ -33,6 +34,7 @@
   import clipboard from '@/libs/clipboard';
   import MonacoEditor from "@/components/MonacoEditor.vue";
   import { useLocalStore } from "@/stores";
+  //@ts-ignore
   import * as xml2js from 'xml2js';
 
   const localStore = useLocalStore();

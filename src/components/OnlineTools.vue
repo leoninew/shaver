@@ -13,6 +13,11 @@
                   </a>
                 </template>
                 <p>{{ item.describe }}</p>
+                <template v-if="item.cover" #cover>
+                   <div style="text-align: center">
+                     <img :src="item.cover" style="max-width: 100px;" alt="" />
+                   </div>
+                </template>
               </a-card>
             </a-col>
           </template>
@@ -57,6 +62,7 @@
       title: "Regex101",
       href: "https://regex101.com/",
       describe: "Regular expression tester with syntax highlighting, explanation, cheat sheet for PHP/PCRE, Python, GO, JavaScript, Java, C#/.NET, Rust.",
+      cover: "https://camo.githubusercontent.com/668d52234b738c0b196be9bfd071a7845f0d27230dd11c040f8e4a0c268d51c0/68747470733a2f2f72656765783130312e636f6d2f7374617469632f6173736574732f69636f6e2d3135322e706e67"
     },
     {
       group: "language",
@@ -93,12 +99,20 @@
       title: "draw.io",
       href: "https://app.diagrams.net/",
       describe: "draw.io is free online diagram software for making flowcharts, process diagrams, org charts, UML, ER and network diagrams.",
+      cover: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAgVBMVEXwhwXfbAz////eZgDwgwDssZXgbgveaADwhQDvfgD1sn3eYwDvgADvu6HdYADnl2zznlDsgQf63cf23dL+9/Lzn1f56eLcWwDhdi300sL0rnXwihv0qGjxjifif0H617/2vJDjg0nyyLT3w5zrqIbmkmLkiVTkdQr50rbpoHrymEfhZHaxAAABn0lEQVRIie2X3XKDIBCFQbBgUBITf2rSJmlrbNP3f8CuNkFArcj0qtNzpbN+nnXZZRBlOUeLxfMMbehyDiGaIw+/ztMP+31xqmlBVhTtV0r7g3P56FNgaO9K0sBS6pYt39jgOvYFSeoJMuyS7CjoQo6D2BucJ6fAWXISnCOnwYcZ8NkGjzdwjoxOJldJjN3I+AyPZwUog4tQYOxIduPxUkpZHruGw65klN3zk69grTv+SMZv4IO/C8LgMjHJ9ymOH7QPIzXcPDInMtpCeqqQsgiCncQOJM3B46I8WNPeEgcyai3K/iFZ6QlMk/RsfRTD9lqOkpwPyijCvshK/aLQuFP0AYmVBkhKSL6CdgCJQdfG+WnbCd5eVAnpDUhSARjsOlVrYYJ0ZfZ1oTxFYUZqYoBtkxm63haAXK3ArcAKtEcwuYOhHRH/4F8ErcZSmze7WIHC7Bz+aYb7Pbjd53Q1zJwOmtZhr0abeNlogVrNpbZlCKJkTC0jZCSiDX+Klwj5ksiXRL4k8iWRLzk4IzuSDOX2mdKJJA0a/j44kKzJvgAPSh1sAMD+owAAAABJRU5ErkJggg=="
     },
     {
       group: "diagrams",
       title: "PlantUML Editor",
       href: "https://plantuml-editor.kkeisuke.dev/",
       describe: "PlantUML Editor. New UML. behavioral diagrams; Use Case; Activity β; Activity; Sequence. structural diagrams; Object; Class; ER diagram.",
+    },
+    {
+      group: "docker",
+      title: "kube-score",
+      href: "https://kube-score.com/",
+      describe: "Kubernetes object analysis with recommendations for improved reliability and security.",
+      cover: "https://kube-score.com/logo.svg"
     },
     // {
     //   group: "",

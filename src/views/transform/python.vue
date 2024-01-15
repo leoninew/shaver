@@ -9,6 +9,7 @@
       </a-card>
       <MonacoEditor v-model:text="input" language="json" v-on:changed="changed" ref="inputEditor" />
     </a-col>
+    
     <a-col :span="12">
       <a-card title="Python">
         <template #extra>
