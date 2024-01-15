@@ -8,57 +8,41 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: HomeView
-        },
-        {
-            path: '/about',
-            name: 'about',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('@/views/about.vue')
-        },
-        {
-            path: '/transform',
-            name: 'transform',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('@/views/transform.vue'),
+            component: HomeView,
             children: [
                 {
-                    path: '/transform/typescript',
-                    name: 'transform-typescript',
+                    path: '/typescript',
+                    name: 'typescript',
                     component: () => import('@/views/transform/typescript.vue'),
                 },
                 {
-                    path: '/transform/csharp',
-                    name: 'transform-csharp',
+                    path: '/csharp',
+                    name: 'csharp',
                     component: () => import('@/views/transform/csharp.vue'),
                 },
                 {
-                    path: '/transform/java',
-                    name: 'transform-java',
+                    path: '/java',
+                    name: 'java',
                     component: () => import('@/views/transform/java.vue'),
                 },
                 {
-                    path: '/transform/yaml',
-                    name: 'transform-yaml',
+                    path: '/yaml',
+                    name: 'yaml',
                     component: () => import('@/views/transform/yaml.vue'),
                 },
                 {
-                    path: '/transform/xml',
-                    name: 'transform-xml',
+                    path: '/xml',
+                    name: 'xml',
                     component: () => import('@/views/transform/xml.vue'),
                 },
                 {
-                    path: '/transform/mysql',
-                    name: 'transform-mysql',
+                    path: '/mysql',
+                    name: 'mysql',
                     component: () => import('@/views/transform/mysql.vue'),
                 },
                 {
-                    path: '/transform/python',
-                    name: 'transform-python',
+                    path: '/python',
+                    name: 'python',
                     component: () => import('@/views/transform/python.vue'),
                 },
 

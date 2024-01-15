@@ -3,15 +3,9 @@
     <section id="app">
       <a-layout>
         <a-layout-header>
-          <a-menu theme="dark" mode="horizontal">
-            <a-menu-item key="/">
-              <router-link class="navbar-item" to="/">Home</router-link>
-            </a-menu-item>
-            <a-menu-item key="/transform">
-              <router-link class="navbar-item" to="/transform">Transform</router-link>
-            </a-menu-item>
-            <a-menu-item key="/about">
-              <router-link class="navbar-item" to="/about">About</router-link>
+          <a-menu theme="dark" mode="horizontal" :selectedKeys="['/']">
+            <a-menu-item key="/" >
+              <router-link class="navbar-item" to="/">Transform</router-link>
             </a-menu-item>
           </a-menu>
         </a-layout-header>
@@ -19,6 +13,10 @@
         <section style="padding: 8px">
           <RouterView />
         </section>
+
+        <a-layout-footer>
+          Created by <a target="_blank" href="https://github.com/leoninew/shaver/tree/develop">github.com/leoninew/shaver</a>
+        </a-layout-footer>
       </a-layout>
     </section>
   </a-config-provider>
