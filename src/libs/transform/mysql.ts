@@ -1,4 +1,4 @@
-import {isObject, knownTypes, Types} from "@/libs/types";
+import {isObject, knownTypes, Types} from "../types";
 
 const MySQLTypes: Record<string, string> = {
     [Types.String]: 'TEXT',
@@ -46,7 +46,7 @@ export default function (json: any, options?: Record<string, any>): string {
                 }
             }
 
-            output[output.length - 1] = output[output.length - 1] + ' ,';
+            output[output.length - 1] = output[output.length - 1] + ',';
         }
 
         if (typeMembers.length > 0) {

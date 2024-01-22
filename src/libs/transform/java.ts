@@ -1,6 +1,6 @@
 // @ts-ignore
 import { camelize } from 'inflected';
-import { isObject, knownTypes, Types } from "@/libs/types";
+import { isObject, knownTypes, Types } from "../types";
 
 const JavaTypes: Record<string, string> = {
     [Types.Empty]: 'Object',

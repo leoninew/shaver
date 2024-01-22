@@ -1,13 +1,21 @@
-logs
-*.log
+.DS_Store
+.thumbs.db
+
+# NPM or Yarn
 node_modules
-dist
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 
 # Editor directories and files
-.vs
 .vscode
 .idea
-.DS_Store
-.vite
 
-/components.d.ts
+# Quasar core related directories
+.quasar
+/dist
+/quasar.config.*.temporary.compiled*
+
+# local .env files
+.env.local*

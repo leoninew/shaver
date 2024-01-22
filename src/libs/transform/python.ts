@@ -1,4 +1,4 @@
-import { isObject, knownTypes, Types } from "@/libs/types";
+import { isObject, knownTypes, Types } from "../types";
 
 const PythonTypes: Record<string, string> = {
     [Types.String]: 'str',
