@@ -16,15 +16,22 @@
       <div class="q-pa-md">
         <div class="row">
           <div class="col-2">
+
             <q-list dense separator>
-              <q-item v-for="item in transforms" :to="item.to" active-class="list-item-active">
-                <q-item-section>{{ item.title }}</q-item-section>
-              </q-item>
+              <q-expansion-item v-for="item in transforms"
+                                :to="item.to" active-class="list-item-active" :label="item.title" :content-inset-level="0.5"  default-opened>
+                <q-list dense separator v-if="item.children">
+                  <q-expansion-item v-for="item2 in item.children"
+                                    :to="item2.to" active-class="list-item-active" :label="item2.title"   default-opened>
+                  </q-expansion-item>
+                </q-list>
+              </q-expansion-item>
             </q-list>
           </div>
+
           <div class="col">
             <template v-if="isContainerPage" v-for="group in onlineToolsGroups">
-              <div class="text-h5 text-uppercase">{{ group.key}}</div>
+              <div class="text-h5 text-uppercase">{{ group.key }}</div>
               <div class="q-pa-md row items-start q-gutter-md">
                 <q-card v-for="item in group.items" style="max-width: 350px">
                   <q-card-section>
@@ -70,8 +77,18 @@
       title: 'to MySQL'
     },
     {
-      to: '/typescript',
-      title: 'to TypeScript'
+      to: '#',
+      title: 'to TypeScript',
+      children: [
+        {
+          to: '/typescript?kind=type',
+          title: 'type declaration',
+        },
+        {
+          to: '/typescript?kind=rest',
+          title: 'axios rest api declaration',
+        }
+      ]
     },
     {
       to: '/xml',
