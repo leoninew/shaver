@@ -1,14 +1,13 @@
 <template>
-  <div>
+  <div style="display: flex;height:calc(98vh - 145px);flex-direction: column;">
     <vue-monaco-editor
-        v-bind:value="props.text"
-        v-bind:language="props.language"
-        v-bind:options="editorOptions"
-        @mount="mounted"
-        @change="changed"
-        theme="vs"
-        height="700px"
-    />
+      v-bind:value="props.text"
+      v-bind:language="props.language"
+      v-bind:options="editorOptions"
+      @mount="mounted"
+      @change="changed"
+      theme="vs"
+  />
   </div>
 </template>
 

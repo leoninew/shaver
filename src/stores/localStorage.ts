@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useLocalStore = defineStore('localStorage', () => {
     const get = function (key: string) {
         const value = localStorage.getItem(key);
-        return value ? JSON.parse(value) : null;
+        return value ? JSON.parse(value) : undefined;
     };
 
     const set = function (key: string, value: any) {

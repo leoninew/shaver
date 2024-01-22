@@ -1,4 +1,4 @@
-import { isObject, knownTypes } from "@/libs/types";
+import { isObject, knownTypes } from "../types";
 
 export default function (json: any, options?: Record<string, any>): string {
     const types = knownTypes(json);

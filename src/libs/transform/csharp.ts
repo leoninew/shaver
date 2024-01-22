@@ -1,6 +1,6 @@
 // @ts-ignore
 import { camelize } from 'inflected';
-import { isObject, knownTypes, Types } from "@/libs/types";
+import { isObject, knownTypes, Types } from "../types";
 
 const CSharpTypes: Record<string, string> = {
     [Types.Empty]: 'object',
