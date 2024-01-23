@@ -4,7 +4,7 @@ export default function * (json: any, options?: Record<string, any>): Generator<
   const types = knownTypes(json)
 
   for (const { name } of types) {
-    yield `// BaseMapper<${name}>`
+    yield `// ${name}Mapper.java`
     yield `import com.baomidou.mybatisplus.core.mapper.BaseMapper;`
     yield `import org.apache.ibatis.annotations.Mapper;`
     yield ``
@@ -14,7 +14,7 @@ export default function * (json: any, options?: Record<string, any>): Generator<
     yield `}`
 
     yield ``
-    yield `// IService<${name}>`
+    yield `// ${name}Repository.java`
     yield `import com.baomidou.mybatisplus.extension.plugins.pagination.Page;`
     yield `import com.baomidou.mybatisplus.extension.service.IService;`
     yield ``
@@ -23,7 +23,7 @@ export default function * (json: any, options?: Record<string, any>): Generator<
     yield `}`
 
     yield ``
-    yield `// ServiceImpl<${name}Mapper`
+    yield `// ${name}RepositoryImpl.java`
     yield `import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;`
     yield `import org.springframework.stereotype.Service;`
     yield ``
