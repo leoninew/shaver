@@ -60,11 +60,13 @@
 
 <script setup lang="ts">
   import { onMounted, ref, toRaw } from 'vue'
-  import transform from 'src/libs/transform'
+  import transform from 'src/libs/transform/csharp'
   import clipboard from 'src/libs/clipboard'
   import MonacoEditor from 'src/components/MonacoEditor.vue'
   import { useLocalStore } from 'src/stores/localStorage'
+  import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
+  const route = useRoute()
   const localStore = useLocalStore()
   const input = ref('')
   const output = ref('')
@@ -80,7 +82,6 @@
     usePetaPoco: false,
   })
   const inputEditor = ref<any>()
-  const splitterModel = ref(50)
 
   onMounted(async () => {
     const keys = Object.keys(options.value)
@@ -90,39 +91,24 @@
     }
 
     // https://en.wikipedia.org/wiki/JSON
-    input.value = localStore.get('/transform/input')
-      || JSON.stringify({
-        'first_name': 'John',
-        'last_name': 'Smith',
-        'is_alive': true,
-        'age': 27,
-        'address': {
-          'street_address': '21 2nd Street',
-          'city': 'New York',
-          'state': 'NY',
-          'postal_code': '10021-3100'
-        },
-        'phone_numbers': [{
-          'type': 'home',
-          'number': '212 555-1234'
-        }, {
-          'type': 'office',
-          'number': '646 555-4567'
-        }],
-        'children': ['Catherine', 'Thomas', 'Trevor'],
-        'spouse': null
-      }, null, 2)
-    await changed(input.value)
+    input.value = localStore.get('/transform/mysql/input')
+      || JSON.stringify({ "id": 1, "userId": 1, "title": "delectus aut autem", "completed": false, "created": "2024-01-06T13:39:32.006Z" }, null, 2);
+    await changed(input.value);
+  });
+
+  onBeforeRouteUpdate(async (to) => {
+    await changed(input.value, to.query.kind)
   })
 
-  const changed = async (value: string) => {
+  const changed = async (value: string, kind?: any) => {
     state.value = ''
     const rawOptions = toRaw(options.value)
     localStore.set('/transform/input', value)
 
     try {
       const json = JSON.parse(value)
-      output.value = transform.toCSharp(json, rawOptions) ?? ''
+      const transformFunc = (transform as any) [kind ?? route.query.kind]
+      output.value = Array.from(transformFunc(json, rawOptions)).join('\n') ?? ''
     } catch (err) {
       if (err instanceof SyntaxError) {
         state.value = err.message

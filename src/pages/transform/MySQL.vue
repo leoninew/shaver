@@ -15,91 +15,80 @@
       <div class="q-pa-md">
         <q-toolbar class="text-primary">
           <q-toolbar-title>MySQL</q-toolbar-title>
-          <q-btn flat round dense icon="settings" @click="showOptions=!showOptions" />
+          <q-btn flat round dense icon="settings" @click="showOptions=!showOptions" disable />
           <q-btn flat round dense icon="content_copy" @click="copyOutput" />
         </q-toolbar>
-        <MonacoEditor v-bind:text="output" language="csharp" />
+        <MonacoEditor v-bind:text="output" language="sql" />
       </div>
     </template>
   </q-splitter>
-
-  <q-dialog v-model="showOptions" @hide="hideOptions">
-    <q-card style="width: 60vw; max-width: 80vw;">
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Settings</div>
-        <q-space/>
-        <q-btn icon="close" flat round dense v-close-popup/>
-      </q-card-section>
-      <q-card-section>
-        <q-form>
-          <q-item-label header>Common</q-item-label>
-          <q-item-label>
-            <q-checkbox v-model="options.useNotNull" label="use more 'NOT NULL'" />
-            <q-checkbox v-model="options.useVarchar" label="use VARCHAR rather then TEXT" disable />
-          </q-item-label>
-        </q-form>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref, toRaw } from "vue";
-  import transform from "src/libs/transform";
-  import clipboard from 'src/libs/clipboard';
-  import MonacoEditor from "src/components/MonacoEditor.vue";
-  import { useLocalStore } from "src/stores/localStorage";
+  import { onMounted, ref, toRaw } from 'vue'
+  import transform from 'src/libs/transform/mysql'
+  import clipboard from 'src/libs/clipboard'
+  import MonacoEditor from 'src/components/MonacoEditor.vue'
+  import { useLocalStore } from 'src/stores/localStorage'
+  import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
-  const localStore = useLocalStore();
-  const input = ref('');
-  const output = ref('');
-  const state = ref('');
-  const showOptions = ref(false);
-  const options = ref({
-    useNotNull: true,
-    useVarchar: false
-  });
-  const inputEditor = ref<any>();
+  const route = useRoute()
+  const localStore = useLocalStore()
+  const input = ref('')
+  const output = ref('')
+  const state = ref('')
+  const showOptions = ref(false)
+  const options = ref<Record<string, boolean>>({})
+  const inputEditor = ref<any>()
 
   onMounted(async () => {
+    const keys = Object.keys(options.value)
+    for (const key of keys) {
+      localStore.assign(`/transform/java/${key}`,
+        val => options.value[key] = val)
+    }
+
     // https://en.wikipedia.org/wiki/JSON
     input.value = localStore.get('/transform/mysql/input')
       || JSON.stringify({ "id": 1, "userId": 1, "title": "delectus aut autem", "completed": false, "created": "2024-01-06T13:39:32.006Z" }, null, 2);
     await changed(input.value);
   });
 
-  const changed = async (value: string) => {
-    state.value = '';
-    const rawOptions = toRaw(options.value);
-    localStore.set('/transform/mysql/input', value);
+  onBeforeRouteUpdate(async (to) => {
+    await changed(input.value, to.query.kind)
+  })
+
+  const changed = async (value: string, kind?: any) => {
+    state.value = ''
+    const rawOptions = toRaw(options.value)
+    localStore.set('/transform/input', value)
 
     try {
-      const json = JSON.parse(value);
-      output.value = transform.toMySQL(json, rawOptions) ?? '';
+      const json = JSON.parse(value)
+      output.value = Array.from(transform(json, rawOptions)).join('\n') ?? ''
     } catch (err) {
       if (err instanceof SyntaxError) {
-        state.value = err.message;
-      }
-      else {
-        throw err;
+        state.value = err.message
+      } else {
+        throw err
       }
     }
   }
 
   const hideOptions = async () => {
-    await changed(input.value);
+    await changed(input.value)
   }
 
   const formatDoc = async () => {
-    await inputEditor.value.formatDoc();
+    await inputEditor.value.formatDoc()
   }
 
   const clearInput = async () => {
-    input.value = '';
+    input.value = ''
   }
 
   const copyOutput = async () => {
-    await clipboard(output.value);
+    await clipboard(output.value)
   }
 
 </script>

@@ -1,4 +1,4 @@
-import { isObject, knownTypes } from '../../types'
+import { isObject, knownTypes } from '../../types';
 
 export default function * (json: any, options?: Record<string, any>): Generator<string> {
   const types = knownTypes(json)

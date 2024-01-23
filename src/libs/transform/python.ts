@@ -26,20 +26,19 @@ const getListType = (originalType: string): string => {
     return targetType;
 }
 
-export default function (json: any, options?: Record<string, any>): string {
+export default function* (json: any, options?: Record<string, any>): Generator<string> {
     const types = knownTypes(json);
-    const output = [];
 
-    output.push(`from dataclasses import dataclass`);
-    output.push('');
+    yield (`from dataclasses import dataclass`);
+    yield ('');
 
     for (const { name, type } of types) {
         const isObjectType = isObject(type);
         if (!isObjectType) {
             continue;
         }
-        output.push('@dataclass');
-        output.push(`class ${name}:`);
+        yield ('@dataclass');
+        yield (`class ${name}:`);
         const typeMap = type as Record<string, string>;
         const typeMembers = Object.keys(typeMap);
         for (const member of typeMembers) {
@@ -47,9 +46,8 @@ export default function (json: any, options?: Record<string, any>): string {
             const targetType = originalType.endsWith('[]')
                 ? getListType(originalType)
                 : getTargetType(originalType);
-            output.push(`  ${member}: ${targetType}`);
+            yield (`  ${member}: ${targetType}`);
         }
-        output.push('');
+        yield ('');
     }
-    return output.join('\n');
 }

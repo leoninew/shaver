@@ -12,9 +12,6 @@ const routes: RouteRecordRaw[] = [
   //     },
   //   ],
   // },
-
-
-
   // {
   //   path: '/transform',
     component: () => import('layouts/Transform2.vue'),
@@ -34,6 +31,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'typescript',
         component: () => import('pages/transform/TypeScript.vue'),
+      },
+      {
+        path: 'python',
+        component: () => import('pages/transform/Python.vue'),
       },
       {
         path: 'xml',

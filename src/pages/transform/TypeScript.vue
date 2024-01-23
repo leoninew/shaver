@@ -33,41 +33,21 @@
   import { useLocalStore } from 'src/stores/localStorage'
   import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
+  const route = useRoute()
   const localStore = useLocalStore()
   const input = ref('')
   const output = ref('')
   const state = ref('')
   const showOptions = ref(false)
-  const options = ref({})
+  const options = ref<Record<string, boolean>>({})
   const inputEditor = ref<any>()
-  const route = useRoute()
 
   onMounted(async () => {
     // https://en.wikipedia.org/wiki/JSON
-    input.value = localStore.get('/transform/input')
-      || JSON.stringify({
-        'first_name': 'John',
-        'last_name': 'Smith',
-        'is_alive': true,
-        'age': 27,
-        'address': {
-          'street_address': '21 2nd Street',
-          'city': 'New York',
-          'state': 'NY',
-          'postal_code': '10021-3100'
-        },
-        'phone_numbers': [{
-          'type': 'home',
-          'number': '212 555-1234'
-        }, {
-          'type': 'office',
-          'number': '646 555-4567'
-        }],
-        'children': ['Catherine', 'Thomas', 'Trevor'],
-        'spouse': null
-      }, null, 2)
-    await changed(input.value)
-  })
+    input.value = localStore.get('/transform/mysql/input')
+      || JSON.stringify({ "id": 1, "userId": 1, "title": "delectus aut autem", "completed": false, "created": "2024-01-06T13:39:32.006Z" }, null, 2);
+    await changed(input.value);
+  });
 
   onBeforeRouteUpdate(async (to) => {
     await changed(input.value, to.query.kind)
