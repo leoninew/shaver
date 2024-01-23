@@ -10,3 +10,4 @@ declare module '*.vue' {
 }
 
 declare module 'xml2js';
+declare module 'inflected';

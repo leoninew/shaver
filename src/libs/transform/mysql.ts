@@ -10,7 +10,7 @@ const getTargetType = (originalType: string, useVarchar: boolean) => {
     return MySQLTypes[originalType] ?? '?';
 }
 
-export default function (json: any, options?: Record<string, any>): string {
+export default function* (json: any, options?: Record<string, any>): Generator<string> {
     const types = knownTypes(json);
     const useNotNull = options?.useNotNull;
     const useVarchar = options?.useVarchar;
@@ -55,5 +55,8 @@ export default function (json: any, options?: Record<string, any>): string {
         }
         output.push(`);\n`);
     }
-    return output.join('\n');
+
+  for (const line of output) {
+    yield line;
+  }
 }
